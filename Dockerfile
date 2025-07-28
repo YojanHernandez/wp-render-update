@@ -1,24 +1,29 @@
-# You can change this to a different version of Wordpress available at
-# https://hub.docker.com/_/wordpress
+# WordPress with integrated MySQL - Simplified Single Configuration
 FROM wordpress:6.8.2-php8.1-apache
 
-# Install minimal packages needed for Render deployment
+# Install MySQL server and supervisor
 RUN apt-get update && apt-get install -y \
-    unzip \
-    magic-wormhole \
+    mysql-server \
+    supervisor \
     && rm -rf /var/lib/apt/lists/*
 
-# Install essential PHP extensions for WordPress performance
-RUN docker-php-ext-install opcache
+# Install essential PHP extensions
+RUN docker-php-ext-install mysqli pdo_mysql
 
-# Install WP-CLI for WordPress management (useful for deployments)
-RUN curl -O https://raw.githubusercontent.com/wp-cli/wp-cli/v2.10.0/wp-cli.phar \
-    && chmod +x wp-cli.phar \
-    && mv wp-cli.phar /usr/local/bin/wp
+# Create directories and set permissions
+RUN mkdir -p /var/run/mysqld /app/scripts \
+    && chown mysql:mysql /var/run/mysqld
 
-# Copy database test file
-COPY db-test.php /var/www/html/
+# Copy configuration files
+COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY config/mysql.cnf /etc/mysql/conf.d/wordpress.cnf
+COPY scripts/setup-database.sh /app/scripts/setup-database.sh
 
-RUN usermod -s /bin/bash www-data
-RUN chown www-data:www-data /var/www
-USER www-data:www-data
+# Make scripts executable
+RUN chmod +x /app/scripts/setup-database.sh
+
+# Expose port
+EXPOSE 80
+
+# Start supervisor to manage both Apache and MySQL
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
