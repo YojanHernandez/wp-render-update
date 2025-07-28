@@ -23,9 +23,10 @@ RUN mysql_install_db --user=mysql --datadir=/var/lib/mysql
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY config/mysql.cnf /etc/mysql/conf.d/wordpress.cnf
 COPY scripts/setup-database.sh /app/scripts/setup-database.sh
+COPY scripts/mysql-with-setup.sh /app/scripts/mysql-with-setup.sh
 
 # Make scripts executable
-RUN chmod +x /app/scripts/setup-database.sh
+RUN chmod +x /app/scripts/setup-database.sh /app/scripts/mysql-with-setup.sh
 
 # Expose port
 EXPOSE 80
