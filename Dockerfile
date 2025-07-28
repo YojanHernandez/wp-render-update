@@ -19,14 +19,22 @@ RUN mkdir -p /var/run/mysqld /app/scripts /var/lib/mysql \
 # Initialize MySQL database
 RUN mysql_install_db --user=mysql --datadir=/var/lib/mysql
 
+# Enable Apache rewrite module for WordPress
+RUN a2enmod rewrite
+
+# Ensure WordPress directory permissions
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html
+
 # Copy configuration files
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY config/mysql.cnf /etc/mysql/conf.d/wordpress.cnf
 COPY scripts/setup-database.sh /app/scripts/setup-database.sh
 COPY scripts/mysql-with-setup.sh /app/scripts/mysql-with-setup.sh
+COPY scripts/init-wordpress.sh /app/scripts/init-wordpress.sh
 
 # Make scripts executable
-RUN chmod +x /app/scripts/setup-database.sh /app/scripts/mysql-with-setup.sh
+RUN chmod +x /app/scripts/setup-database.sh /app/scripts/mysql-with-setup.sh /app/scripts/init-wordpress.sh
 
 # Expose port
 EXPOSE 80

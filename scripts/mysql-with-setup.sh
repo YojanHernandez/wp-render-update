@@ -3,6 +3,9 @@
 # Start MySQL and setup database
 echo "🚀 Starting MySQL with database setup..."
 
+# Initialize WordPress first
+/app/scripts/init-wordpress.sh
+
 # Start MySQL in background
 /usr/bin/mysqld_safe --datadir=/var/lib/mysql --pid-file=/var/run/mysqld/mysqld.pid &
 MYSQL_PID=$!
