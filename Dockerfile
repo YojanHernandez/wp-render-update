@@ -16,6 +16,9 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/wp-cli/v2.10.0/wp-cli.phar 
     && chmod +x wp-cli.phar \
     && mv wp-cli.phar /usr/local/bin/wp
 
+# Copy database test file
+COPY db-test.php /var/www/html/
+
 RUN usermod -s /bin/bash www-data
 RUN chown www-data:www-data /var/www
 USER www-data:www-data

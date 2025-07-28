@@ -29,6 +29,34 @@ services:
       name: mysql-wordpress
       type: pserv
       envVarKey: MYSQL_PASSWORD
+# phpMyAdmin temporalmente deshabilitado para plan gratuito
+# - type: web
+#   name: phpmyadmin
+#   env: docker
+#   dockerImage: phpmyadmin:5.2.1
+#   plan: starter
+#   autoDeploy: false
+#   envVars:
+#   - key: PMA_HOST
+#     fromService:
+#       name: mysql-wordpress
+#       type: pserv
+#       property: host
+#   - key: PMA_USER
+#     fromService:
+#       name: mysql-wordpress
+#       type: pserv
+#       envVarKey: MYSQL_USER
+#   - key: PMA_PASSWORD
+#     fromService:
+#       name: mysql-wordpress
+#       type: pserv
+#       envVarKey: MYSQL_PASSWORD
+#   - key: MYSQL_ROOT_PASSWORD
+#     fromService:
+#       name: mysql-wordpress
+#       type: pserv
+#       envVarKey: MYSQL_ROOT_PASSWORD
 - type: pserv
   name: mysql-wordpress
   repo: https://github.com/render-examples/mysql.git
