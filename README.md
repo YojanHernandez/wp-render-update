@@ -1,15 +1,18 @@
-# README
+# WordPress on Render - Updated Version
 
-This is a template repository for running [Wordpress](https://wordpress.org) on Render.
+This repository is based on the [official Render WordPress template](https://github.com/render-examples/wordpress) but with updated WordPress versions and optimized configuration for modern deployments.
 
-* It uses the [official Wordpress Docker image](https://hub.docker.com/_/wordpress/).
+## Key Features
 
-* [Render Disks](https://render.com/docs/disks) provide fast, persistent SSD storage for content storage.
+* **Updated WordPress**: Uses the latest WordPress `6.8.2` with PHP `8.1` and Apache
+* **Official Docker Image**: Based on [`wordpress:6.8.2-php8.1-apache`](https://hub.docker.com/_/wordpress/)
+* **Optimized Performance**: Includes OPcache for improved PHP performance
+* **WP-CLI Integration**: Pre-installed for easy WordPress management
+* **MySQL Database**: Uses [MySQL on Render](https://render.com/docs/deploy-mysql) with automatic configuration
 
-* It uses [MySQL on Render](https://render.com/docs/deploy-mysql) for the database.
 
 ## Deployment
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/render-examples/wordpress)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/YojanHernandez/wp-render-update)
 
-See https://render.com/docs/deploy-wordpress.
+For detailed deployment instructions, see the [official Render WordPress documentation](https://render.com/docs/deploy-wordpress).
