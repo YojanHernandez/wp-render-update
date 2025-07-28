@@ -3,7 +3,8 @@ FROM wordpress:6.8.2-php8.1-apache
 
 # Install MySQL server and supervisor
 RUN apt-get update && apt-get install -y \
-    mysql-server \
+    default-mysql-server \
+    default-mysql-client \
     supervisor \
     && rm -rf /var/lib/apt/lists/*
 
@@ -11,8 +12,12 @@ RUN apt-get update && apt-get install -y \
 RUN docker-php-ext-install mysqli pdo_mysql
 
 # Create directories and set permissions
-RUN mkdir -p /var/run/mysqld /app/scripts \
-    && chown mysql:mysql /var/run/mysqld
+RUN mkdir -p /var/run/mysqld /app/scripts /var/lib/mysql \
+    && chown mysql:mysql /var/run/mysqld /var/lib/mysql \
+    && chmod 755 /var/run/mysqld
+
+# Initialize MySQL database
+RUN mysql_install_db --user=mysql --datadir=/var/lib/mysql
 
 # Copy configuration files
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
